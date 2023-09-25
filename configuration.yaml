@@ -1,0 +1,33 @@
+esphome:
+  name: hd-platinum-controller
+  platform: esp32
+  board: sparkfun_esp32micromod
+
+external_components:
+  - source:
+      type: local
+      path: ./custom_components
+    components: [nrf24l01, hd_platinum_controller]
+
+spi:
+  clk_pin: 18
+  mosi_pin: 23
+  miso_pin: 19
+
+# Pin D1 on the ESP32 is connected to RST on the MikroBus
+# See https://learn.sparkfun.com/tutorials/micromod-mikrobus-carrier-board-hookup-guide/hardware-overview
+# and https://learn.sparkfun.com/tutorials/micromod-esp32-processor-board-hookup-guide/hardware-overview
+# CE pin = 27; // This is D1 (ESP32 Pin 27) for Chip Enable
+# CS pin = 5;  // This is GPIO5 (ESP32 Pin 5) for Chip Select
+nrf24l01:
+  id: nrf24l01_radio
+  ce_pin: 27
+  cs_pin: 5
+
+hd_platinum_controller:
+  id: hunter_douglas_platinum_controller
+  # remote_id: 0x14EC
+# cover:
+#   platform: hd_platinum_controller
+#   name: Great Room Blinds
+#   group: 1

@@ -1,0 +1,9 @@
+{
+  "configurations": [
+    {
+      "name": "esphome",
+      "includePath": ["${HOME}/Documents/Arduino/libraries/**"]
+    }
+  ],
+  "version": 4
+}
