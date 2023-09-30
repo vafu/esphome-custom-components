@@ -3,11 +3,12 @@ esphome:
   platform: esp32
   board: sparkfun_esp32micromod
 
+# https://esphome.io/components/external_components.html?highlight=external_components
 external_components:
   - source:
       type: local
       path: ./custom_components
-    components: [nrf24l01, hd_platinum_controller]
+    components: [hd_platinum_controller]
 
 spi:
   clk_pin: 18
@@ -19,15 +20,42 @@ spi:
 # and https://learn.sparkfun.com/tutorials/micromod-esp32-processor-board-hookup-guide/hardware-overview
 # CE pin = 27; // This is D1 (ESP32 Pin 27) for Chip Enable
 # CS pin = 5;  // This is GPIO5 (ESP32 Pin 5) for Chip Select
-nrf24l01:
-  id: nrf24l01_radio
+#
+# Change these pins as needed for your setup!
+hd_platinum_controller:
+  id: hunter_douglas_platinum_controller
+  remote_id: 0x14EC
   ce_pin: 27
   cs_pin: 5
 
-hd_platinum_controller:
-  id: hunter_douglas_platinum_controller
-  # remote_id: 0x14EC
-# cover:
-#   platform: hd_platinum_controller
-#   name: Great Room Blinds
-#   group: 1
+switch:
+  platform: hd_platinum_controller
+  switches:
+    - name: "Hunter Douglas Platinum - Group 1"
+      group: 1
+      id: hd_platinum_group_1
+      internal: true
+    - name: "Hunter Douglas Platinum - Group 2"
+      group: 2
+      id: hd_platinum_group_2
+      internal: true
+    - name: "Hunter Douglas Platinum - Group 3"
+      group: 3
+      id: hd_platinum_group_3
+      internal: true
+    - name: "Hunter Douglas Platinum - Group 4"
+      group: 4
+      id: hd_platinum_group_4
+      internal: true
+    - name: "Hunter Douglas Platinum - All"
+      group: 0xff
+      id: hd_platinum_group_all
+cover:
+  - platform: template
+    name: "My Shades"
+    open_action:
+      - switch.turn_on: hd_platinum_group_1
+    close_action:
+      - switch.turn_off: hd_platinum_group_1
+
+    assumed_state: true # manual control is still possible
