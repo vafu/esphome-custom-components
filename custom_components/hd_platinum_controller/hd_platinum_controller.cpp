@@ -63,19 +63,19 @@ namespace esphome
        * 5: command (0xa1 for up, 0xa2 for down)
        */
       uint8_t payload[RF_PAYLOAD_SIZE] = {0};
-      payload[0] = command;
-      payload[1] = group;
-      payload[2] = this->remote_id_ >> 24;
-      payload[3] = this->remote_id_ >> 16;
-      payload[4] = this->remote_id_ >> 8;
-      ESP_LOGD("HDPlatinumController", "Sending payload: %02x %02x %02x %02x %02x", payload[0], payload[1], payload[2], payload[3], payload[4]);
+      payload[0] = this->remote_id_ >> 8;
+      payload[1] = this->remote_id_ & 0xff;
+      payload[2] = 0x20;
+      payload[3] = group;
+      payload[4] = command;
+      ESP_LOGD("HDPlatinumController", "Sending payload: {%02x, %02x, %02x, %02x, %02x}", payload[0], payload[1], payload[2], payload[3], payload[4]);
 
       // Four bursts of 1000 duplicate packets are sent. No ACKs
       for (int j = 1; j <= 4; j++)
       {
         for (int i = 1; i < 1000; i++)
         {
-          this->radio->writeFast(payload, RF_PAYLOAD_SIZE);
+          this->radio->writeFast(payload, RF_PAYLOAD_SIZE, true);
           if (i % 3 == 0)
             this->radio->setChannel(RF_CHANNEL_0);
           if (i % 3 == 1)
