@@ -13,39 +13,45 @@ namespace esphome
       setupRF24();
     }
 
-    void HDPlatinumController::loop()
-    {
-      // This will be called every "loop" by esphome
-    }
-
     void HDPlatinumController::dump_config()
     {
-      ESP_LOGCONFIG("HDPlatinumController", "HDPlatinumController: CS: %02x, CE: %02x, RemoteID: %04x", this->cs_, this->ce_, this->remote_id_);
+      ESP_LOGCONFIG(TAG, "HD Platinum Controller:");
+      ESP_LOGCONFIG(TAG, "  CS: %d", this->cs_);
+      ESP_LOGCONFIG(TAG, "  CE: %d", this->ce_);
+      ESP_LOGCONFIG(TAG, "  RemoteID: %04x", this->remote_id_);
     }
 
     void HDPlatinumController::setupRF24()
     {
-      this->radio->begin();
-      this->radio->setChannel(RF_CHANNEL_0);
-      this->radio->setPayloadSize(5);
-      this->radio->setDataRate(RF_DATARATE);
-      this->radio->openWritingPipe(RF_RESET_VALUE);
-      this->radio->stopListening();
-      this->radio->setPALevel(RF_POWER);
-      this->radio->setAutoAck(false);
-      this->radio->setAddressWidth(3);
-      this->radio->setRetries(0, 0);
+      ESP_LOGI(TAG, "Setting up RF24...");
+      if (this->radio->begin())
+      {
+        this->radio->setChannel(RF_CHANNEL_0);
+        this->radio->setPayloadSize(RF_PAYLOAD_SIZE);
+        this->radio->setDataRate(RF_DATARATE);
+        this->radio->stopListening();
+        this->radio->openWritingPipe(RF_RESET_VALUE);
+        this->radio->setPALevel(RF_POWER);
+        this->radio->setAutoAck(false);
+        this->radio->setAddressWidth(3);
+        this->radio->setRetries(0, 0);
+        ESP_LOGD(TAG, "  RF24 setup complete");
+      }
+      else
+      {
+        ESP_LOGI(TAG, "  RF24 setup failed");
+      }
     }
 
     void HDPlatinumController::set_up(SHADE_GROUP group)
     {
-      ESP_LOGI("HDPlatinumController", "Setting shade group %d to up", group);
+      ESP_LOGI(TAG, "Setting shade group %d to up", group);
       move_shades(group, SHADE_UP);
     }
 
     void HDPlatinumController::set_down(SHADE_GROUP group)
     {
-      ESP_LOGI("HDPlatinumController", "Setting shade group %d to down", group);
+      ESP_LOGI(TAG, "Setting shade group %d to down", group);
       move_shades(group, SHADE_DOWN);
     }
 
