@@ -17,12 +17,14 @@ namespace esphome
     {
       if (state)
       {
-        this->controller_->set_up(this->group_);
+        this->controller_->set_down(this->group_);
       }
       else
       {
-        this->controller_->set_down(this->group_);
+        this->controller_->set_up(this->group_);
       }
+
+      publish_state(state);
     }
   }
 }

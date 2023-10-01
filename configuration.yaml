@@ -50,12 +50,14 @@ switch:
     - name: "Hunter Douglas Platinum - All"
       group: 0xff
       id: hd_platinum_group_all
+      internal: true
 cover:
   - platform: template
     name: "My Shades"
     open_action:
-      - switch.turn_on: hd_platinum_group_1
-    close_action:
       - switch.turn_off: hd_platinum_group_1
-
+    close_action:
+      - switch.turn_on: hd_platinum_group_1
+    stop_action:
+      - switch.toggle: hd_platinum_group_1
     assumed_state: true # manual control is still possible
