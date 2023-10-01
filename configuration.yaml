@@ -3,11 +3,14 @@ esphome:
   platform: esp32
   board: sparkfun_esp32micromod
 
+# Add wifi options here!!
+wifi:
+
 # https://esphome.io/components/external_components.html?highlight=external_components
 external_components:
   - source:
       type: local
-      path: ./custom_components
+      path: ./components
     components: [hd_platinum_controller]
 
 spi:
