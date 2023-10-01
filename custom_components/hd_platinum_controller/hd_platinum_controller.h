@@ -30,13 +30,19 @@ namespace esphome
       SHADE_DOWN = 0xa2
     };
 
-    // Platinum Controllers have 4 groups + all
+    // Groups in the Platinum protocol are specified by a 1 in the bit position
+    // The group is 1 byte in length with all groups specificed by 0x11111111 or 0xff
     enum SHADE_GROUP : u_int8_t
     {
-      SHADE_GROUP_1 = 0x01,
-      SHADE_GROUP_2 = 0x02,
-      SHADE_GROUP_3 = 0x04,
-      SHADE_GROUP_4 = 0x08,
+      SHADE_GROUP_1 = 1,
+      SHADE_GROUP_2 = 1 << 1,
+      SHADE_GROUP_3 = 1 << 2,
+      SHADE_GROUP_4 = 1 << 3,
+      // there are only 4 buttons on controllers but the protocol supports 8 groups
+      SHADE_GROUP_5 = 1 << 4,
+      SHADE_GROUP_6 = 1 << 5,
+      SHADE_GROUP_7 = 1 << 6,
+      SHADE_GROUP_8 = 1 << 7,
       SHADE_GROUP_ALL = 0xff
     };
 
@@ -47,7 +53,6 @@ namespace esphome
       ~HDPlatinumController();
 
       void setup() override;
-      void loop() override;
       void dump_config() override;
 
       void set_cs_pin(rf24_gpio_pin_t cs) { this->cs_ = cs; }
@@ -60,7 +65,7 @@ namespace esphome
     private:
       rf24_gpio_pin_t cs_;
       rf24_gpio_pin_t ce_;
-      uint32_t remote_id_;
+      uint16_t remote_id_;
       RF24 *radio;
 
       void setupRF24();
