@@ -9,7 +9,7 @@ namespace esphome
 
     void HDPlatinumController::setup()
     {
-      this->radio = new RF24(this->cs_, this->ce_);
+      this->radio = new RF24(this->ce_, this->cs_);
       setupRF24();
     }
 
