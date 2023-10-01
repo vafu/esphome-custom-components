@@ -16,7 +16,7 @@ HDPlatinumController = hd_platinum_controller_ns.class_(
 CONFIG_SCHEMA = cv.Schema(
     {
         cv.Required(CONF_ID): cv.declare_id(HDPlatinumController),
-        cv.Required(CONF_REMOTE_ID): cv.uint32_t,
+        cv.Required(CONF_REMOTE_ID): cv.uint16_t,
         cv.Required(CONF_CE_PIN): cv.uint8_t,
         cv.Required(CONF_CS_PIN): cv.uint8_t,
     }
