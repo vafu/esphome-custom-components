@@ -11,8 +11,6 @@ namespace esphome
     {
       this->radio = new RF24(this->ce_, this->cs_);
       setupRF24();
-
-      this->publish_state(format_hex(this->remote_id_, 4)));
     }
 
     void HDPlatinumController::dump_config()
@@ -40,8 +38,7 @@ namespace esphome
         this->radio->setRetries(0, 0);
         this->radio->maskIRQ(false, true, true); // one way comms so only care about transmit
         attachInterrupt(
-            digitalPinToInterrupt(this->irq_pin_), []
-            { this->radio->whatHappened(); },
+            digitalPinToInterrupt(this->irq_pin_), [] {},
             FALLING);
         ESP_LOGD(TAG, "  RF24 setup complete");
       }

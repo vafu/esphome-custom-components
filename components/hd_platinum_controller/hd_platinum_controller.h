@@ -1,7 +1,6 @@
 #pragma once
 
 #include "esphome/core/component.h"
-#include "esphome/components/text_sensor/text_sensor.h"
 #include <RF24.h>
 
 namespace esphome
@@ -47,7 +46,7 @@ namespace esphome
       SHADE_GROUP_ALL = 0xff
     };
 
-    class HDPlatinumController : public Component, public text_sensor::TextSensor
+    class HDPlatinumController : public Component
     {
 
     public:

@@ -23,6 +23,7 @@ spi:
 # and https://learn.sparkfun.com/tutorials/micromod-esp32-processor-board-hookup-guide/hardware-overview
 # CE pin = 27; // This is D1 (ESP32 Pin 27) for Chip Enable
 # CS pin = 5;  // This is GPIO5 (ESP32 Pin 5) for Chip Select
+# IRQ pin = 4; // This is I2C_INT (ESP32 Pin 4) for I2C Interrupt
 #
 # Change these pins as needed for your setup!
 hd_platinum_controller:
@@ -30,6 +31,7 @@ hd_platinum_controller:
   remote_id: 0x14EC
   ce_pin: 27
   cs_pin: 5
+  irq_pin: 4
 
 switch:
   platform: hd_platinum_controller
