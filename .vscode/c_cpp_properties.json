@@ -2,7 +2,11 @@
   "configurations": [
     {
       "name": "esphome",
-      "includePath": ["${HOME}/Documents/Arduino/libraries/**"]
+      "includePath": [
+        "${HOME}/Library/Arduino15/libraries/**",
+        "${HOME}/Documents/Arduino/libraries/**",
+        "${HOME}/Projects/esphome/**"
+      ]
     }
   ],
   "version": 4

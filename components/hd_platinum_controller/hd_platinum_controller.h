@@ -1,6 +1,7 @@
 #pragma once
 
 #include "esphome/core/component.h"
+#include "esphome/components/text_sensor/text_sensor.h"
 #include <RF24.h>
 
 namespace esphome
@@ -46,7 +47,7 @@ namespace esphome
       SHADE_GROUP_ALL = 0xff
     };
 
-    class HDPlatinumController : public Component
+    class HDPlatinumController : public Component, public text_sensor::TextSensor
     {
 
     public:
@@ -57,6 +58,7 @@ namespace esphome
 
       void set_cs_pin(rf24_gpio_pin_t cs) { this->cs_ = cs; }
       void set_ce_pin(rf24_gpio_pin_t ce) { this->ce_ = ce; }
+      void set_irq_pin(rf24_gpio_pin_t irq_pin) { this->irq_pin_ = irq_pin; }
       void set_remote_id(uint32_t remote_id) { this->remote_id_ = remote_id; }
 
       void set_up(SHADE_GROUP group);
@@ -65,6 +67,7 @@ namespace esphome
     private:
       rf24_gpio_pin_t cs_;
       rf24_gpio_pin_t ce_;
+      rf24_gpio_pin_t irq_pin_;
       uint16_t remote_id_;
       RF24 *radio;
 

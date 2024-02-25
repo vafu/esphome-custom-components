@@ -11,6 +11,8 @@ namespace esphome
     {
       this->radio = new RF24(this->ce_, this->cs_);
       setupRF24();
+
+      this->publish_state(format_hex(this->remote_id_, 4)));
     }
 
     void HDPlatinumController::dump_config()
@@ -18,6 +20,7 @@ namespace esphome
       ESP_LOGCONFIG(TAG, "HD Platinum Controller:");
       ESP_LOGCONFIG(TAG, "  CS: %d", this->cs_);
       ESP_LOGCONFIG(TAG, "  CE: %d", this->ce_);
+      ESP_LOGCONFIG(TAG, "  IRQ Pin: %d", this->irq_pin_);
       ESP_LOGCONFIG(TAG, "  RemoteID: %04x", this->remote_id_);
     }
 
@@ -35,6 +38,11 @@ namespace esphome
         this->radio->setAutoAck(false);
         this->radio->setAddressWidth(3);
         this->radio->setRetries(0, 0);
+        this->radio->maskIRQ(false, true, true); // one way comms so only care about transmit
+        attachInterrupt(
+            digitalPinToInterrupt(this->irq_pin_), []
+            { this->radio->whatHappened(); },
+            FALLING);
         ESP_LOGD(TAG, "  RF24 setup complete");
       }
       else
