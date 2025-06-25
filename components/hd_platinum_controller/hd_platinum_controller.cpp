@@ -85,10 +85,9 @@ namespace esphome
       payload[4] = command;
       ESP_LOGD("HDPlatinumController", "Sending payload: {%02x, %02x, %02x, %02x, %02x}", payload[0], payload[1], payload[2], payload[3], payload[4]);
 
-      // Four bursts of 1000 duplicate packets are sent. No ACKs
-      for (int j = 1; j <= 4; j++)
+      for (int j = 0; j <= 2; j++)
       {
-        for (int i = 1; i < 1000; i++)
+        for (int i = 0; i < 250; i++)
         {
           this->radio->writeFast(payload, RF_PAYLOAD_SIZE, true);
           if (i % 3 == 0)
